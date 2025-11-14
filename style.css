@@ -1,0 +1,70 @@
+/* ---- Reset ---- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ---- Base ---- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #fff;
+    color: #222;
+    text-align: center;
+    padding: 40px 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ---- Lumi mascot ---- */
+.lumi-hero {
+    width: 180px;
+    height: auto;
+    margin: 20px auto 30px;
+    display: block;
+}
+
+/* ---- Typography ---- */
+h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.subhead {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin-bottom: 30px;
+    color: #555;
+}
+
+.reassurance {
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 25px;
+    line-height: 1.4;
+}
+
+/* ---- CTA ---- */
+.cta {
+    display: inline-block;
+    background: #FF9900; /* Lumi orange */
+    color: #fff;
+    padding: 12px 26px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: transform 0.15s ease;
+}
+
+.cta:hover {
+    transform: scale(1.05);
+}
+
+/* ---- Footer ---- */
+footer {
+    margin-top: 60px;
+    font-size: 0.85rem;
+    color: #aaa;
+}
