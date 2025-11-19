@@ -1,31 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lumi Viewer</title>
-<link rel="stylesheet" href="viewer.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lumi Viewer</title>
+
+  <style>
+    /* Lumi palette */
+    :root {
+      --lumi-yellow: #F4E38A;
+      --lumi-peach:  #F7C8A0;
+      --lumi-sky:    #A8D5F2;
+      --lumi-mint:   #BCE8CC;
+      --lumi-lilac:  #CDB7E9;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #ffffff;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      color: #222;
+    }
+
+    /* Header with Lumi word + dots */
+    .header {
+      text-align: center;
+      padding-top: 12px;
+      padding-bottom: 8px;
+    }
+
+    .lumi-logo {
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+
+    .dot-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      opacity: 0.35;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .dot:nth-child(1) { background: var(--lumi-yellow); }
+    .dot:nth-child(2) { background: var(--lumi-peach);  }
+    .dot:nth-child(3) { background: var(--lumi-sky);    }
+    .dot:nth-child(4) { background: var(--lumi-mint);   }
+    .dot:nth-child(5) { background: var(--lumi-lilac);  }
+
+    .dot.active {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    /* Viewer area */
+    .viewer {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8px 0 16px;
+    }
+
+    .viewer-inner {
+      width: 90vw;
+      height: 90vw;
+      max-width: 600px;
+      max-height: 600px;
+      border-radius: 22px;
+      background: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .viewer-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: opacity 0.25s ease;
+      opacity: 0;
+    }
+
+    .viewer-inner img.visible {
+      opacity: 1;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- FIXED TOP BAR -->
-    <header class="lumi-header">
-        <div class="lumi-title">Lumi</div>
-    </header>
+  <!-- Header -->
+  <div class="header">
+    <div class="lumi-logo">Lumi</div>
+    <div class="dot-row">
+      <span class="dot" data-index="0"></span>
+      <span class="dot" data-index="1"></span>
+      <span class="dot" data-index="2"></span>
+      <span class="dot" data-index="3"></span>
+      <span class="dot" data-index="4"></span>
+    </div>
+  </div>
 
-    <!-- MAIN VIEWER AREA -->
-    <main class="viewer">
-        <div class="image-frame">
-            <img id="storyImage" src="images/1.png" alt="Lumi Story Page">
-        </div>
+  <!-- Viewer -->
+  <div class="viewer">
+    <div class="viewer-inner">
+      <img id="storyImage" src="" alt="Lumi story frame" />
+    </div>
+  </div>
 
-        <!-- NAV BUTTONS -->
-        <div class="nav-buttons">
-            <button id="prevBtn" class="nav-btn">↑</button>
-            <button id="nextBtn" class="nav-btn">↓</button>
-        </div>
-    </main>
+  <script>
+    // Image list – adjust filenames to whatever you're using
+    const images = [
+      "images/lumi1.png",
+      "images/lumi2.png",
+      "images/lumi3.png",
+      "images/lumi4.png",
+      "images/lumi5.png"
+    ];
 
-<script src="viewer.js"></script>
+    let index = 0;
+    const imgEl = document.getElementById("storyImage");
+    const dots = document.querySelectorAll(".dot");
+
+    function updateViewer() {
+      // fade out
+      imgEl.classList.remove("visible");
+
+      setTimeout(() => {
+        imgEl.src = images[index];
+        // update dots
+        dots.forEach(d => d.classList.remove("active"));
+        dots[index].classList.add("active");
+        // fade in
+        requestAnimationFrame(() => {
+          imgEl.classList.add("visible");
+        });
+      }, 150);
+    }
+
+    dots.forEach(dot => {
+      dot.addEventListener("click", () => {
+        const i = Number(dot.dataset.index);
+        if (i !== index) {
+          index = i;
+          updateViewer();
+        }
+      });
+    });
+
+    // Simple swipe support (vertical)
+    let startY = null;
+
+    document.addEventListener("touchstart", e => {
+      if (e.touches.length === 1) {
+        startY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    document.addEventListener("touchend", e => {
+      if (startY === null) return;
+      const endY = e.changedTouches[0].clientY;
+      const diff = endY - startY;
+
+      if (Math.abs(diff) > 50) {
+        if (diff < 0 && index < images.length - 1) {
+          index++;
+          updateViewer();
+        } else if (diff > 0 && index > 0) {
+          index--;
+          updateViewer();
+        }
+      }
+
+      startY = null;
+    }, { passive: true });
+
+    // Keyboard support (optional – mostly for desktop testing)
+    document.addEventListener("keydown", e => {
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        if (index < images.length - 1) {
+          index++;
+          updateViewer();
+        }
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        if (index > 0) {
+          index--;
+          updateViewer();
+        }
+      }
+    });
+
+    // Initial load
+    updateViewer();
+  </script>
 </body>
 </html>
