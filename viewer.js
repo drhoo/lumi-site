@@ -1,5 +1,4 @@
-// Array of story pages (square PNGs)
-const pages = [
+const images = [
     "images/1.png",
     "images/2.png",
     "images/3.png",
@@ -7,28 +6,46 @@ const pages = [
     "images/5.png"
 ];
 
-let currentPage = 0;
+let index = 0;
 
-const img = document.getElementById("storyImage");
-const next = document.getElementById("nextBtn");
-const prev = document.getElementById("prevBtn");
+const imgEl = document.getElementById("storyImage");
+const dots = document.querySelectorAll(".dot");
 
-function updateImage() {
-    img.src = pages[currentPage];
+function updateViewer() {
+    imgEl.style.opacity = 0;
+    setTimeout(() => {
+        imgEl.src = images[index];
+        imgEl.style.opacity = 1;
+    }, 150);
+
+    dots.forEach(d => d.classList.remove("active"));
+    dots[index].classList.add("active");
 }
 
-// Next page
-next.addEventListener("click", () => {
-    if (currentPage < pages.length - 1) {
-        currentPage++;
-        updateImage();
+dots.forEach(dot => {
+    dot.addEventListener("click", () => {
+        index = Number(dot.dataset.index);
+        updateViewer();
+    });
+});
+
+
+// Swipe support
+let startY;
+
+document.addEventListener("touchstart", e => {
+    startY = e.touches[0].clientY;
+});
+
+document.addEventListener("touchend", e => {
+    let endY = e.changedTouches[0].clientY;
+    let diff = endY - startY;
+
+    if (Math.abs(diff) > 50) {
+        if (diff < 0 && index < images.length - 1) index++;
+        else if (diff > 0 && index > 0) index--;
+        updateViewer();
     }
 });
 
-// Previous page
-prev.addEventListener("click", () => {
-    if (currentPage > 0) {
-        currentPage--;
-        updateImage();
-    }
-});
+updateViewer();
