@@ -10,13 +10,20 @@
             text-align: center;
             padding: 20px;
             background-color: #f7f7f7;
+            margin: 0;
+        }
+        .dot-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 400px; /* max width for larger screens */
+            margin: 0 auto;
         }
         .dot {
-            display: inline-block;
-            width: 120px;
+            width: 20%;
             height: 120px;
             border-radius: 50%;
-            margin: 20px;
+            margin: 0 5%;
             cursor: pointer;
             transition: transform 0.3s;
         }
@@ -42,10 +49,12 @@
 </head>
 <body>
     <h1>Click a Dot to Explore Lumi’s World</h1>
-    <div class="dot peach" onclick="window.location.href='peach.html'"></div>
-    <div class="dot sky" onclick="window.location.href='sky.html'"></div>
-    <div class="dot mint" onclick="window.location.href='mint.html'"></div>
-    <div class="dot yellow" onclick="window.location.href='yellow.html'"></div>
-    <div class="dot lilac" onclick="window.location.href='lilac.html'"></div>
+    <div class="dot-container">
+        <div class="dot peach" onclick="window.location.href='peach.html'"></div>
+        <div class="dot sky" onclick="window.location.href='sky.html'"></div>
+        <div class="dot mint" onclick="window.location.href='mint.html'"></div>
+        <div class="dot yellow" onclick="window.location.href='yellow.html'"></div>
+        <div class="dot lilac" onclick="window.location.href='lilac.html'"></div>
+    </div>
 </body>
 </html>
