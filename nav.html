@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumi's Navigation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f7f7f7;
+        }
+        .dot {
+            display: inline-block;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .dot:hover {
+            transform: scale(1.1);
+        }
+        .peach {
+            background-color: #F7C8A0;
+        }
+        .sky {
+            background-color: #A8D5F2;
+        }
+        .mint {
+            background-color: #BCE8CC;
+        }
+        .yellow {
+            background-color: #F4E38A;
+        }
+        .lilac {
+            background-color: #CDB7E9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Click a Dot to Explore Lumi’s World</h1>
+    <div class="dot peach" onclick="window.location.href='peach.html'"></div>
+    <div class="dot sky" onclick="window.location.href='sky.html'"></div>
+    <div class="dot mint" onclick="window.location.href='mint.html'"></div>
+    <div class="dot yellow" onclick="window.location.href='yellow.html'"></div>
+    <div class="dot lilac" onclick="window.location.href='lilac.html'"></div>
+</body>
+</html>
